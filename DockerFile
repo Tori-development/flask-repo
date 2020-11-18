@@ -1,0 +1,22 @@
+FROM centos:7
+
+
+RUN yum -y update; yum clean all
+RUN yum -y install epel-release; yum clean all
+RUN yum -y install gcc
+RUN yum -y install python3-devel
+RUN yum install -y python3
+RUN yum -y install python3-pip; yum clean all
+
+COPY ./requirements.txt /requirements.txt
+COPY . /data_code
+WORKDIR /data_code
+
+RUN pip3 install -r requirements.txt
+
+RUN cd /data_code
+
+EXPOSE 8080
+
+
+CMD ["python3","./data_code/run.py"]
